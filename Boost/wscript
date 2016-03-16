@@ -1,7 +1,7 @@
 import os, sys, glob
 
 def configure (ctx):
-    print 'configuring in boost'
+    pass
 
 def getFiles(ctx):
     print ctx.path.abspath()
@@ -10,5 +10,5 @@ def getFiles(ctx):
 
 def build (ctx):
     print 'Building in boost'
-    ctx.program(source = getFiles(ctx), target='test', use = ['boost','PYTHON'])
+    ctx.program(source = getFiles(ctx), target='test', use = ['boost','PYTHON', 'OPENEXR'])
     

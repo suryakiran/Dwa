@@ -14,7 +14,6 @@ def configure(ctx):
     for lib in filter(is_not_empty, re.split('[, ]', ctx.options.boost)):
         f = ctx.find_file('libboost_%s_mt.so' % lib, [os.path.join (boost, 'lib')])
         real = os.path.realpath(f)
-        print real
         boost_lib_paths.add(os.path.dirname(real))
         prefix,ext = os.path.splitext(os.path.basename(f))
         boost_libs.append(prefix.split('lib')[1])
