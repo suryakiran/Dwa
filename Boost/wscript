@@ -1,0 +1,14 @@
+import os, sys, glob
+
+def configure (ctx):
+    print 'configuring in boost'
+
+def getFiles(ctx):
+    print ctx.path.abspath()
+    cxx_files = glob.glob(ctx.path.abspath() + '/*.cxx')
+    return [os.path.relpath(p, ctx.path.abspath()) for p in cxx_files]
+
+def build (ctx):
+    print 'Building in boost'
+    ctx.program(source = getFiles(ctx), target='test', use = ['boost','PYTHON'])
+    
