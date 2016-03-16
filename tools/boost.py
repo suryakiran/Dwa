@@ -10,12 +10,17 @@ def is_not_empty(s):
 def configure(ctx):
     boost=os.environ.get('BOOST_ROOT')
     boost_libs = []
+    boost_lib_paths = set()
     for lib in filter(is_not_empty, re.split('[, ]', ctx.options.boost)):
         f = ctx.find_file('libboost_%s_mt.so' % lib, [os.path.join (boost, 'lib')])
-        boost_libs.append('boost_%s_mt'%lib)
+        real = os.path.realpath(f)
+        print real
+        boost_lib_paths.add(os.path.dirname(real))
+        prefix,ext = os.path.splitext(os.path.basename(f))
+        boost_libs.append(prefix.split('lib')[1])
 
     if boost is not None:
         ctx.env.INCLUDES_boost = [os.path.join(boost, 'include')]
         ctx.env.LIBPATH_boost = [os.path.join(boost, 'lib')]
         ctx.env.LIB_boost = boost_libs
-        ctx.env.RPATH_boost = ctx.env.LIBPATH_boost
+        ctx.env.RPATH_boost = boost_lib_paths
